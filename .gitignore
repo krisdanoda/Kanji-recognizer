@@ -1,9 +1,8 @@
-
-kkanj-imgs.npz
-kkanji-labels.npz
-.idea/vcs.xml
-.idea/modules.xml
-.idea/misc.xml
-.idea/Kanji-recognizer.iml
-.idea/inspectionProfiles/Project_Default.xml
-.idea/inspectionProfiles/profiles_settings.xml
+kkanji2
+kkanji.tar
+kkanji-img.npz
+*.npz
+idea
+data
+data/
+data\
