@@ -1,0 +1,8 @@
+kkanji2
+kkanji.tar
+kkanji-img.npz
+*.npz
+idea
+data
+data/
+data\
