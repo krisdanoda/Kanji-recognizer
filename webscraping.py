@@ -1,8 +1,6 @@
 import bs4
 import requests
 
-
-kanji = '手'
 def get_meaning(kanji):
     r = requests.get(f'https://jisho.org/search/{kanji}')
     r.raise_for_status()
