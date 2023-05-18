@@ -22,8 +22,8 @@ def remove_by_contours(labels, images):
             full_count = full_count/len(image_contours)
             for k in image_contours.keys():
                 if image_contours[k] > full_count-2 and image_contours[k] < full_count+2:
-                    filtered_images.append(images[i])
-                    filtered_labels.append(labels[i])
+                    filtered_images.append(images[k])
+                    filtered_labels.append(labels[k])
             full_count = 0
             image_contours = {}
         img = images[i]
@@ -50,8 +50,8 @@ def remove_by_contours2(labels, images):
             full_count = full_count/len(image_contours)
             for k in image_contours.keys():
                 if image_contours[k] < full_count-2 or image_contours[k] > full_count+2:
-                    filtered_images.append(images[i])
-                    filtered_labels.append(labels[i])
+                    filtered_images.append(images[k])
+                    filtered_labels.append(labels[k])
             full_count = 0
             image_contours = {}
         img = images[i]
