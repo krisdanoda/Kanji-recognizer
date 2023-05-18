@@ -1,4 +1,6 @@
 import csv
+import numpy as np
+
 
 def write_dict_to_csv(file_name, dict_data):
     with open(file_name, "w", newline="") as fp:
@@ -24,3 +26,24 @@ def open_csv(name):
             converted_row = {key: int(value) for key, value in row.items()}
 
     return converted_row
+
+
+def add_nonocurring_kanjis(name, save = False):
+    data_imgs = np.load('../kkanj-imgs.npz')
+    data_labels = np.load('../kkanji-labels.npz')
+
+    # Access the arrays stored in the .npz files
+    imgs = data_imgs['arr_0']
+    labels = data_labels['arr_0']
+
+    dict_data = open_csv(name)
+
+    for k in labels:
+        if dict_data.get(k) is None:
+            dict_data[k] = 0
+
+
+    if save:
+        write_dict_to_csv(name, dict_data)
+
+    return dict_data
