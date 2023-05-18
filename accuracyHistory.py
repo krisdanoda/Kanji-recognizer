@@ -9,7 +9,6 @@ def save_and_display_accuracy(kanji, new_accuracy):
 
     global accuracy_history
     accuracy_history += (kanji, new_accuracy)
-    #kanjis = accuracy_history[::2]  
     accuracies = accuracy_history[1::2]  
 
     print(accuracy_history)
@@ -19,24 +18,22 @@ def save_and_display_accuracy(kanji, new_accuracy):
     plt.xlabel('Kanjis')
     plt.show()
 
-def display_kanji_accuracy(kanjiS):
+def display_kanji_accuracy(kanjiSign):
     global accuracy_history
     
-    sign = kanji(kanjiS)
+    sign = kanji(kanjiSign)
 
     kanjis = accuracy_history[::2]
     accuracies = accuracy_history[1::2]
+        
+    indexes = [i for i, k in enumerate(kanjis) if k == kanjiSign]
     
-    print(accuracy_history)
-    
-    indices = [i for i, k in enumerate(kanjis) if k == kanjiS]
-    
-    if len(indices) == 0:
+    if len(indexes) == 0:
         print(f"No ratings found for {kanji}.")
         return
     
-    kanji_accuracies = [accuracies[i] for i in indices]
-    print("Plot for ", sign)
+    kanji_accuracies = [accuracies[i] for i in indexes]
+    print("Plot for: ", sign)
     plt.plot(kanji_accuracies)
     plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')
