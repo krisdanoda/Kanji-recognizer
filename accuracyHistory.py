@@ -28,7 +28,6 @@ def display_kanji_accuracy(kanjiS):
     accuracies = accuracy_history[1::2]
     
     print(accuracy_history)
-    print("Ke-Mon")
     
     indices = [i for i, k in enumerate(kanjis) if k == kanjiS]
     
@@ -37,9 +36,9 @@ def display_kanji_accuracy(kanjiS):
         return
     
     kanji_accuracies = [accuracies[i] for i in indices]
-    
+    print("Plot for ", sign)
     plt.plot(kanji_accuracies)
-    plt.title(sign + '- Skill Rating')
+    plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Occurrences')
     plt.show()
