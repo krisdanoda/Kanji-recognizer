@@ -5,13 +5,17 @@ def kanji(kaniUnicode):
 
 accuracy_history = tuple()
 
-def save_and_display_accuracy(kanji, new_accuracy):
+
+def save_accuracy(kanji, new_accuracy):
 
     global accuracy_history
     accuracy_history += (kanji, new_accuracy)
+   
+def display_accuracy():
+
+    global accuracy_history
     accuracies = accuracy_history[1::2]  
 
-    print(accuracy_history)
     plt.plot(accuracies)
     plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')

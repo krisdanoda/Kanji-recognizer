@@ -7,6 +7,7 @@ import pathlib
 import helper_functions
 import tensorflow as tf
 import webscraping
+import accuracyHistory
 
 #LOAD LABELS
 def give_image_meaning():
@@ -38,12 +39,20 @@ def give_image_meaning():
     predictions = model.predict(dim_img)
     predicted_classes = predictions.argmax(axis=-1)
 
+    predicted_class_index = predictions.argmax(axis=-1)[0]
+    predicted_class_probability = predictions[0][predicted_class_index]
+
+    #SAVE ACCURACY
+
+    accuracyHistory.save_accuracy(np.unique(Z)[predicted_class_index], predicted_class_probability * 100)
+
 
     #WEBSCRAPE MEANING
 
     return_list = [helper_functions.to_kanji(np.unique(Z)[predicted_classes][0])]
     return_list.append(webscraping.get_meaning(helper_functions.to_kanji(np.unique(Z)[predicted_classes][0])))
-    
+    return_list.append(predicted_class_probability*100)
+
     return return_list
 
 
