@@ -21,9 +21,9 @@ def remove_by_contours(labels, images):
         if label != labels[i]:
             full_count = full_count/len(image_contours)
             for k in image_contours.keys():
-                if image_contours[k] > full_count-1 and image_contours[k] < full_count+1:
-                    filtered_images.append(images[i])
-                    filtered_labels.append(labels[i])
+                if image_contours[k] > full_count-3 and image_contours[k] < full_count+3:
+                    filtered_images.append(images[k])
+                    filtered_labels.append(labels[k])
             full_count = 0
             image_contours = {}
         img = images[i]
@@ -31,7 +31,7 @@ def remove_by_contours(labels, images):
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
         for c in contours:
-            if cv2.contourArea(c) > 50:
+            if cv2.contourArea(c) > 15:
                 count+=1
                 full_count+=1
         image_contours[i] = count
@@ -49,9 +49,9 @@ def remove_by_contours2(labels, images):
         if label != labels[i]:
             full_count = full_count/len(image_contours)
             for k in image_contours.keys():
-                if image_contours[k] < full_count-1 or image_contours[k] > full_count+1:
-                    filtered_images.append(images[i])
-                    filtered_labels.append(labels[i])
+                if image_contours[k] < full_count-3 or image_contours[k] > full_count+3:
+                    filtered_images.append(images[k])
+                    filtered_labels.append(labels[k])
             full_count = 0
             image_contours = {}
         img = images[i]
@@ -59,7 +59,7 @@ def remove_by_contours2(labels, images):
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
         for c in contours:
-            if cv2.contourArea(c) > 50:
+            if cv2.contourArea(c) > 15:
                 count+=1
                 full_count+=1
         image_contours[i] = count
