@@ -7,3 +7,5 @@ data
 data/
 data\
 Webscraping/chromedriver.exe
+.idea/misc.xml
+.idea/Kanji-recognizer.iml
