@@ -1,13 +1,6 @@
-import ReadCsv
+
+import Webscraping.ReadCsv as ReadCsv
 import numpy as np
-
-dict_data = ReadCsv.open_csv('kanji_freq.csv')
-
-data_imgs = np.load('kkanj-imgs.npz')
-data_labels = np.load('kkanji-labels.npz')
-
-imgs = data_imgs['arr_0']
-labels = data_labels['arr_0']
 
 
 def sort_dict(dict_data):
@@ -20,10 +13,4 @@ def filter_dict_percentile(dict_data, percentile):
     threshold = np.percentile(values, percentile)
     filtered_dict = {key: value for key, value in dict_data.items() if value >= threshold}
     return filtered_dict
-
-
-filter_dict = filter_dict_percentile(dict_data, 30)
-
-
-print(filter_dict_percentile(dict_data, 30))
 

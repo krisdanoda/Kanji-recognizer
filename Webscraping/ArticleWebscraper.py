@@ -5,7 +5,7 @@ import csv
 import ReadCsv
 driver = webdriver.Chrome()
 
-data_labels = np.load('../kkanji-labels.npz')
+data_labels = np.load('../data/kkanji-labels.npz')
 labels = data_labels['arr_0']
 labels = np.unique(labels)
 
