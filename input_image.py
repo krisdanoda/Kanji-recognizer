@@ -11,7 +11,7 @@ import accuracyHistory
 
 #LOAD LABELS
 def give_image_meaning():
-    Z = helper_functions.load_labels(14000)
+    Z = helper_functions.load_labels(-1)
 
     #FIND IMAGE
     input_images = pathlib.Path("input_images")
