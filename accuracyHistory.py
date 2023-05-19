@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 def kanji(kaniUnicode):
     return chr(int(kaniUnicode[2:], 16))
 
-accuracy_history = tuple()
+accuracy_history = (0,0)
 
 
 def save_accuracy(kanji, new_accuracy):
 
     global accuracy_history
     accuracy_history += (kanji, new_accuracy)
-   
+    print(accuracy_history)
 def display_accuracy():
 
     global accuracy_history
