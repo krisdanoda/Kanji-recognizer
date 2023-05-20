@@ -99,11 +99,11 @@ def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs):
 def run_model(name, epochs, batchsize):
     labels, imgs = load_data()
 
-    labels, imgs = dataCleaning.remove_min_occurences(labels, imgs)
+    labels, imgs = clean_data_using_webscrapped_data(labels, imgs)
 
     filtered_labels, filtered_imgs = dataCleaning.remove_min_occurences(labels, imgs)
 
-    filtered_labels, filtered_imgs = dataCleaning.remove_by_contours2(filtered_labels, filtered_imgs)
+    filtered_labels, filtered_imgs = dataCleaning.remove_by_contours(filtered_labels, filtered_imgs)
 
     X = data_normalization(filtered_imgs)
     Y = one_hot_encode(filtered_labels)
@@ -120,4 +120,4 @@ def run_model(name, epochs, batchsize):
 
     model.save('models/' + name )
 
-run_model("test_model", 5, 200)
+run_model("test001", 3, 200)
