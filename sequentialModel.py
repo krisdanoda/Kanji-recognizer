@@ -14,7 +14,7 @@ from sklearn.preprocessing import LabelEncoder
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.optimizers import Adam
+from keras.optimizers import Adam, SGD
 from keras.utils import to_categorical
 from keras.layers import Dropout, Flatten, Activation, Conv2D, MaxPooling2D, BatchNormalization
 import tensorflow as tf
@@ -22,6 +22,7 @@ import random as rn
 from tqdm import tqdm
 from keras.callbacks import ReduceLROnPlateau
 from os import listdir, system
+
 
 def load_data():
     try:
@@ -104,7 +105,7 @@ def define_model(Z, padding = "Same", activation = "relu", kernelsizes=None, fil
 
 
 def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs):
-    model.compile(optimizer=Adam(lr=0.00005), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=SGD(learning_rate=0.01, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])
     # %%
     model.summary()
     # %%
