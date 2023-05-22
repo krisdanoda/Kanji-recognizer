@@ -105,7 +105,8 @@ def define_model(Z, padding = "Same", activation = "relu", kernelsizes=None, fil
 
 
 def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs):
-    model.compile(optimizer=SGD(learning_rate=0.01, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])
+    #model.compile(optimizer=SGD(learning_rate=0.01, momentum=0.9), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=Adam(learning_rate=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
     # %%
     model.summary()
     # %%

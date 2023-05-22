@@ -21,7 +21,7 @@ def remove_by_contours(labels, images):
         if label != labels[i]:
             full_count = full_count/len(image_contours)
             for k in image_contours.keys():
-                if image_contours[k] > full_count-3 and image_contours[k] < full_count+3:
+                if image_contours[k] > full_count-2 and image_contours[k] < full_count+2:
                     filtered_images.append(images[k])
                     filtered_labels.append(labels[k])
             full_count = 0
@@ -31,7 +31,7 @@ def remove_by_contours(labels, images):
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
         for c in contours:
-            if cv2.contourArea(c) > 15:
+            if cv2.contourArea(c) > 30:
                 count+=1
                 full_count+=1
         image_contours[i] = count
