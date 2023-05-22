@@ -21,18 +21,26 @@ import tensorflow as tf
 import random as rn
 from tqdm import tqdm
 from keras.callbacks import ReduceLROnPlateau
+from os import listdir, system
 
 def load_data():
-    data_imgs = np.load('data/kkanj-imgs.npz')
-    data_labels = np.load('data/kkanji-labels.npz')
-
+    try:
+        data_imgs = np.load('../data/kkanj-imgs.npz')
+        data_labels = np.load('../data/kkanji-labels.npz')
+    except:
+        data_imgs = np.load('data/kkanj-imgs.npz')
+        data_labels = np.load('data/kkanji-labels.npz')
     imgs = data_imgs['arr_0']
     labels = data_labels['arr_0']
     return labels, imgs,
 
 
 def clean_data_using_webscrapped_data(labels, imgs, ):
-    dict_data = read_csv.add_nonocurring_kanjis("Webscraping/kanji_freq.csv");
+
+    try:
+        dict_data = read_csv.add_nonocurring_kanjis("../Webscraping/kanji_freq.csv");
+    except:
+        dict_data = read_csv.add_nonocurring_kanjis("Webscraping/kanji_freq.csv")
 
     print("amount of kanji before cleaning " + len(dict_data).__str__())
 
@@ -65,46 +73,54 @@ def one_hot_encode(Z):
     return y
 
 
-def define_model(Z):
+def define_model(Z, padding = "Same", activation = "relu", kernelsizes=None, filters = 32, dropout = False):
+    if kernelsizes is None:
+        kernelsizes = [3, 3, 1, 1]
     model = Sequential()
-    model.add(Conv2D(filters=32, kernel_size=(3, 3), padding='Same', activation='relu', input_shape=(64, 64, 1)))
+    model.add(Conv2D(filters= filters*1, kernel_size=(kernelsizes[0] , kernelsizes[0]), padding= padding, activation=activation, input_shape=(64, 64, 1)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
+    if dropout:
+        model.add(Dropout(0.25))
 
-    model.add(Conv2D(filters=64, kernel_size=(3, 3), padding='Same', activation='relu'))
+    model.add(Conv2D(filters= filters*2, kernel_size=(kernelsizes[1], kernelsizes[1]), padding='Same', activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
+    if dropout:
+        model.add(Dropout(0.25))
 
-    model.add(Conv2D(filters=96, kernel_size=(1, 1), padding='Same', activation='relu'))
+    model.add(Conv2D(filters= filters*3, kernel_size=(kernelsizes[2], kernelsizes[2]), padding='Same', activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
+    if dropout:
+        model.add(Dropout(0.25))
 
-    model.add(Conv2D(filters=96, kernel_size=(1, 1), padding='Same', activation='relu'))
+    model.add(Conv2D(filters= filters*3, kernel_size=(kernelsizes[3], kernelsizes[3]), padding='Same', activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-
     model.add(Flatten())
     model.add(Dense(512))
     model.add(Activation('relu'))
+    if dropout:
+        model.add(Dropout(0.5))
     model.add(Dense(len(np.unique(Z)), activation="softmax"))
     return model
 
 
 def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs):
-    model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=Adam(lr=0.00005), loss='categorical_crossentropy', metrics=['accuracy'])
     # %%
     model.summary()
     # %%
     History = model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, validation_data=(x_test, y_test),
                         verbose=1, steps_per_epoch=x_train.shape[0] // batch_size)
-    return model.fit
+    return History
 
 
-def run_model(name, epochs, batchsize):
+def run_model(name, epochs, batchsize, useContoursFiltering = True, useDataFiltering = True, padding = "Same", activation = "relu", kernelsizes=None, filters = 32):
     labels, imgs = load_data()
 
-    labels, imgs = dataCleaning.remove_min_occurences(labels, imgs)
-
     filtered_labels, filtered_imgs = dataCleaning.remove_min_occurences(labels, imgs)
-
-    filtered_labels, filtered_imgs = dataCleaning.remove_by_contours2(filtered_labels, filtered_imgs)
-
+    if useContoursFiltering:
+        filtered_labels, filtered_imgs = dataCleaning.remove_by_contours(filtered_labels, filtered_imgs)
+    if useDataFiltering:
+        filtered_labels, filtered_imgs = clean_data_using_webscrapped_data(filtered_labels, filtered_imgs)
     X = data_normalization(filtered_imgs)
     Y = one_hot_encode(filtered_labels)
 
@@ -114,10 +130,20 @@ def run_model(name, epochs, batchsize):
     rn.seed(42)
     tf.random.set_seed(42)
 
-    model = define_model(filtered_labels)
+    model = define_model(filtered_labels, padding = padding, activation = activation, kernelsizes = kernelsizes, filters= filters)
 
-    fit_model(model, x_train, y_train, x_test, y_test, batchsize, epochs)
+    history =fit_model(model, x_train, y_train, x_test, y_test, batchsize, epochs)
 
     model.save('models/' + name )
 
-run_model("test_model", 5, 200)
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Model Loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epochs')
+    plt.legend(['train', 'test'])
+    plt.show()
+    return model
+
+
+##run_model("control-with-kanji-filtering", 10, 200, useContoursFiltering=False, useDataFiltering= True)

@@ -29,8 +29,12 @@ def open_csv(name):
 
 
 def add_nonocurring_kanjis(name, save = False):
-    data_imgs = np.load('data/kkanj-imgs.npz')
-    data_labels = np.load('data/kkanji-labels.npz')
+    try:
+        data_imgs = np.load('../data/kkanj-imgs.npz')
+        data_labels = np.load('../data/kkanji-labels.npz')
+    except:
+        data_imgs = np.load('data/kkanj-imgs.npz')
+        data_labels = np.load('data/kkanji-labels.npz')
 
     # Access the arrays stored in the .npz files
     imgs = data_imgs['arr_0']
@@ -39,7 +43,8 @@ def add_nonocurring_kanjis(name, save = False):
     dict_data = open_csv(name)
 
     for k in labels:
-        if dict_data.get(k) is None:
+        key = str(k)
+        if dict_data.get(key) is None:
             dict_data[k] = 0
 
 
