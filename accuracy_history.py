@@ -59,7 +59,7 @@ def kanji_list():
     list_of_kanji = dict()
     
     for element in accuracy_history:
-        list_of_kanji[element[0]] = helper_functions.to_kanji(element[0])
+        list_of_kanji[helper_functions.to_kanji(element[0])] = element[0]
     return list_of_kanji
 
 def save_history():
