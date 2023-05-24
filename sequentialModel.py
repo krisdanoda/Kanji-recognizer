@@ -23,6 +23,7 @@ from tqdm import tqdm
 from keras.callbacks import ReduceLROnPlateau
 from os import listdir, system
 
+
 def load_data():
     try:
         data_imgs = np.load('../data/kkanj-imgs.npz')
@@ -36,7 +37,6 @@ def load_data():
 
 
 def clean_data_using_webscrapped_data(labels, imgs, ):
-
     try:
         dict_data = read_csv.add_nonocurring_kanjis("../Webscraping/kanji_freq.csv");
     except:
@@ -73,26 +73,30 @@ def one_hot_encode(Z):
     return y
 
 
-def define_model(Z, padding = "Same", activation = "relu", kernelsizes=None, filters = 32, dropout = False):
+def define_model(Z, padding="Same", activation="relu", kernelsizes=None, filters=32, dropout=False):
     if kernelsizes is None:
         kernelsizes = [3, 3, 1, 1]
     model = Sequential()
-    model.add(Conv2D(filters= filters*1, kernel_size=(kernelsizes[0] , kernelsizes[0]), padding= padding, activation=activation, input_shape=(64, 64, 1)))
+    model.add(Conv2D(filters=filters * 1, kernel_size=(kernelsizes[0], kernelsizes[0]), padding=padding,
+                     activation=activation, input_shape=(64, 64, 1)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     if dropout:
         model.add(Dropout(0.25))
 
-    model.add(Conv2D(filters= filters*2, kernel_size=(kernelsizes[1], kernelsizes[1]), padding='Same', activation='relu'))
+    model.add(Conv2D(filters=filters * 2, kernel_size=(kernelsizes[1], kernelsizes[1]), padding='Same',
+                     activation=activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     if dropout:
         model.add(Dropout(0.25))
 
-    model.add(Conv2D(filters= filters*3, kernel_size=(kernelsizes[2], kernelsizes[2]), padding='Same', activation='relu'))
+    model.add(Conv2D(filters=filters * 3, kernel_size=(kernelsizes[2], kernelsizes[2]), padding='Same',
+                     activation=activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     if dropout:
         model.add(Dropout(0.25))
 
-    model.add(Conv2D(filters= filters*3, kernel_size=(kernelsizes[3], kernelsizes[3]), padding='Same', activation='relu'))
+    model.add(Conv2D(filters=filters * 3, kernel_size=(kernelsizes[3], kernelsizes[3]), padding='Same',
+                     activation=activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Flatten())
     model.add(Dense(512))
@@ -103,8 +107,8 @@ def define_model(Z, padding = "Same", activation = "relu", kernelsizes=None, fil
     return model
 
 
-def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs):
-    model.compile(optimizer=Adam(lr=0.00005), loss='categorical_crossentropy', metrics=['accuracy'])
+def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs, learning_rate):
+    model.compile(optimizer=Adam(lr=learning_rate), loss='categorical_crossentropy', metrics=['accuracy'])
     # %%
     model.summary()
     # %%
@@ -113,7 +117,8 @@ def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs):
     return History
 
 
-def run_model(name, epochs, batchsize, useContoursFiltering = True, useDataFiltering = True, padding = "Same", activation = "relu", kernelsizes=None, filters = 32):
+def run_model(name, epochs, batchsize, useContoursFiltering=True, useDataFiltering=True, padding="Same",
+              activation="relu", kernelsizes=None, dropout=False, filters=32, learning_rate=0.00005):
     labels, imgs = load_data()
 
     filtered_labels, filtered_imgs = dataCleaning.remove_min_occurences(labels, imgs)
@@ -130,11 +135,12 @@ def run_model(name, epochs, batchsize, useContoursFiltering = True, useDataFilte
     rn.seed(42)
     tf.random.set_seed(42)
 
-    model = define_model(filtered_labels, padding = padding, activation = activation, kernelsizes = kernelsizes, filters= filters)
+    model = define_model(filtered_labels, padding=padding, activation=activation, kernelsizes=kernelsizes,
+                         filters=filters, dropout=dropout)
 
-    history =fit_model(model, x_train, y_train, x_test, y_test, batchsize, epochs)
+    history = fit_model(model, x_train, y_train, x_test, y_test, batchsize, epochs, learning_rate)
 
-    model.save('models/' + name )
+    model.save('models/' + name)
 
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
@@ -144,6 +150,5 @@ def run_model(name, epochs, batchsize, useContoursFiltering = True, useDataFilte
     plt.legend(['train', 'test'])
     plt.show()
     return model
-
 
 ##run_model("control-with-kanji-filtering", 10, 200, useContoursFiltering=False, useDataFiltering= True)
