@@ -7,7 +7,7 @@ import pathlib
 import helper_functions
 import tensorflow as tf
 import webscraping
-import accuracyHistory
+import accuracy_history
 
 #LOAD LABELS
 def give_image_meaning():
@@ -44,7 +44,7 @@ def give_image_meaning():
 
     #SAVE ACCURACY
 
-    accuracyHistory.save_accuracy(np.unique(Z)[predicted_class_index], predicted_class_probability * 100)
+    accuracy_history.save_accuracy(np.unique(Z)[predicted_class_index], predicted_class_probability * 100)
 
 
     #WEBSCRAPE MEANING
