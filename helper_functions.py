@@ -10,11 +10,11 @@ def to_kanji(kanji_unicode):
     return chr(int(kanji_unicode[2:], 16))
 
 def load_labels(data_slice):
-    data_labels = np.load('../Kanji-recognizer/data/kkanji-labels.npz')
+    data_labels = np.load('data/kkanji-labels.npz')
     labels = data_labels['arr_0']
     return labels[:data_slice]
 
 def load_images(data_slice):
-    data_imgs = np.load('../Kanji-recognizer/data/kkanj-imgs.npz')
+    data_imgs = np.load('data/kkanj-imgs.npz')
     imgs = data_imgs['arr_0']
     return imgs[:data_slice]

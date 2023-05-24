@@ -10,7 +10,7 @@ import webscraping
 import accuracy_history
 
 #LOAD LABELS
-def give_image_meaning():
+def give_image_meaning(default_image = 0):
     Z = helper_functions.load_labels(-1)
 
     #FIND IMAGE
@@ -20,7 +20,7 @@ def give_image_meaning():
     input_images_strings = [str(item) for item in input_images.iterdir()]
     
 
-    img = cv2.imread(input_images_strings[0])   # Read the image
+    img = cv2.imread(input_images_strings[default_image])   # Read the image
 
 
     #RESIZE
@@ -33,7 +33,7 @@ def give_image_meaning():
     new_image=new_image/255
 
     #PREDICTION
-    model = keras.models.load_model('../Kanji-recognizer/saved_sequential_model')
+    model = keras.models.load_model('saved_sequential_model')
 
     dim_img = tf.expand_dims(new_image, 0)
     predictions = model.predict(dim_img)
