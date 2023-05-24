@@ -44,17 +44,6 @@ def display_specific_accuracy(kanjiSign):
     plt.xlim(0)
     plt.show()
 
-# def kanji_list():
-#     kanji_signs = []
-#     unique_elements = set()
-    
-#     for element in accuracy_history:
-#         if element[0] not in unique_elements:
-#             unique_elements.add(element[0])
-#             kanji_signs.append(helper_functions.to_kanji(element[0]))
-    
-#     return kanji_signs
-
 def kanji_list():
     list_of_kanji = dict()
     
