@@ -11,7 +11,7 @@ filename = 'accuracy_history.csv'
 def save_accuracy(kanji, new_accuracy):
     global accuracy_history
     accuracy_history.append((kanji, new_accuracy))
-    print(accuracy_history)
+   # print(accuracy_history)
 
 def display_accuracy():
     global accuracy_history

@@ -1,27 +1,17 @@
 import dataCleaning
-import os
-import warnings
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
-import Webscraping.ReadCsv as read_csv
-import Webscraping.reduce_data as reduce_data
+import Journal.Webscraping.ReadCsv as read_csv
+import Journal.Webscraping.reduce_data as reduce_data
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
-from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import LabelEncoder
-from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.utils import to_categorical
-from keras.layers import Dropout, Flatten, Activation, Conv2D, MaxPooling2D, BatchNormalization
+from keras.layers import Dropout, Flatten, Activation, Conv2D, MaxPooling2D
 import tensorflow as tf
 import random as rn
-from tqdm import tqdm
-from keras.callbacks import ReduceLROnPlateau
-from os import listdir, system
 
 
 def load_data():

@@ -10,11 +10,11 @@ import webscraping
 import accuracy_history
 
 #LOAD LABELS
-def give_image_meaning(default_image = 0):
+def give_image_meaning(default_image = 0, path = "input_images"):
     Z = helper_functions.load_labels(-1)
 
     #FIND IMAGE
-    input_images = pathlib.Path("input_images")
+    input_images = pathlib.Path(path)
     list(input_images.iterdir())
 
     input_images_strings = [str(item) for item in input_images.iterdir()]
@@ -32,6 +32,8 @@ def give_image_meaning(default_image = 0):
     new_image=np.array(new_image)
     new_image=new_image/255
 
+    print(new_image)
+    print(new_image.shape)
     #PREDICTION
     model = keras.models.load_model('saved_sequential_model')
 

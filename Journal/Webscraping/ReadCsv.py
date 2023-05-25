@@ -30,8 +30,8 @@ def open_csv(name):
 
 def add_nonocurring_kanjis(name, save = False):
     try:
-        data_imgs = np.load('../data/kkanj-imgs.npz')
-        data_labels = np.load('../data/kkanji-labels.npz')
+        data_imgs = np.load('../../data/kkanj-imgs.npz')
+        data_labels = np.load('../../data/kkanji-labels.npz')
     except:
         data_imgs = np.load('data/kkanj-imgs.npz')
         data_labels = np.load('data/kkanji-labels.npz')

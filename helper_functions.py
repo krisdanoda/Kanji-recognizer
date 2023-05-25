@@ -2,12 +2,20 @@ import cv2
 import numpy as np
 import input_images
 
+
 def resize(image, new_dim):
     dim = (new_dim, new_dim)
     return cv2.resize(image, dim, 1)
 
+
 def to_kanji(kanji_unicode):
     return chr(int(kanji_unicode[2:], 16))
+
+
+def to_unicode(character):
+    unicode_code_point = ord(character)
+    unicode_hex = format(unicode_code_point, 'X')
+    return 'U+' + unicode_hex
 
 def load_labels(data_slice):
     data_labels = np.load('data/kkanji-labels.npz')
