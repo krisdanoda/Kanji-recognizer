@@ -13,8 +13,16 @@ def list_directory(path):
         imgs.append(img)
     return imgs
 
+def pick_file():
+    imgs = list_directory("input_images")
+    while True:
+        picked_kanji = input(
+            "Choose which file you want to interperet. Confirm that you have placed your image correctly.")
+        picked_kanji = int(picked_kanji)
+        if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
+            return imgs[picked_kanji - 1]
 
-def translate_kanji():
+def translate_kanji_og():
     imgs = list_directory("input_images")
     print("Make sure you have placed your image in the input_images folder\n")
 
@@ -31,6 +39,20 @@ def translate_kanji():
                 print(item)
             return
 
+def translate_kanji():
+
+    print("Make sure you have placed your image in the input_images folder\n")
+    picked_kanji = pick_file()
+    print("Your image is being recognized...\n")
+    image_output_list = input_image.give_image_meaning(picked_kanji)
+    print(f"\nWe recognized your image as: {image_output_list[0]}\n")
+    print("It translates to:")
+    for item in image_output_list[1]:
+        print(item)
+    return
+
+
+
 
 def display_accuracy():
     print("Type which character you wish to see the history of")
@@ -40,13 +62,14 @@ def display_accuracy():
         print(f'{index} - {option}')
     print("----------------")
     sign_to_check = input('')
-    try:
-        sign_to_check = int(sign_to_check)
-        selected_option = list(options.values())[sign_to_check - 1]
-        print(f"You chose {list(options)[sign_to_check - 1]}")
-        accuracy_history.display_specific_accuracy(selected_option)
-    except:
-        print("Sign not found!")
+    #try:
+    sign_to_check = int(sign_to_check)
+    selected_option = list(options.values())[sign_to_check - 1]
+    print(f"You chose {list(options)[sign_to_check - 1]}")
+    accuracy_history.display_specific_accuracy(selected_option)
+    #except Exception as e:
+     #   print(e)
+      #  print("Sign not found!")
 
 
 def show_history_options():
@@ -109,7 +132,7 @@ while no_shutdown:
 
     elif (choice == "2"):
         print("You have chosen to translate a kanji symbol\n")
-        translate_kanji()
+        translate_kanji_og()
 
     elif (choice == "3"):
         print("Accuracy history: ")
@@ -121,20 +144,35 @@ while no_shutdown:
 
     elif choice == "5":
         print("You have chosen to test your skills\n")
-        kanji = "U+91CE"
-        print("try to draw this" + helper_functions.to_kanji(kanji))
+
 
         while True:
-            print("What would you like to do?:\n-Draw an image-> Type 1\n- Read Image -> Type 2\n")
-            choice = input()
-            choice = int(choice)
-            if choice == 1:
+            print("Would you like to pick a kanji character, leave it blank to use the default/n")
+            kanji = input()
+            if kanji == "":
+                kanji = "U+91CE"
 
-                skills_test_read_drawing()
 
-                break
-            elif choice == 2:
-                print("")
+            while True:
+                print("What would you like to do?:\n-Draw an image-> Type 1\n-Read Image -> Type 2\n")
+                choice = input()
+                choice = int(choice)
+                if choice == 1:
+                    skills_test_read_drawing(kanji)
+                    break
+                elif choice == 2:
+                    print("Can you draw this kanji: ")
+                    print("Click on this link to see a better rendition: \n")
+
+                    print("Make sure you have placed your image in the input_images folder\n")
+                    input("Confirm that you have placed your image correctly")
+
+                    print("Your image is being recognized...\n")
+                    image_output_list = input_image.give_image_meaning()
+
+                    print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
+                    break
+
 
     elif (choice.lower() == "clear"):
         print("You have chosen to clear your history")

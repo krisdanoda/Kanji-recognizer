@@ -7,7 +7,6 @@ def open_drawing_canvas():
 
     path = "input_images/Canvas/"
     lastx, lasty = 0, 0
-    drawing = True
 
 
     def xy(event):
@@ -35,7 +34,6 @@ def open_drawing_canvas():
 
 
     def save():
-        global drawing
         print("Saving image...")
         x = root.winfo_rootx() + canvas.winfo_x()
         y = root.winfo_rooty() + canvas.winfo_y()

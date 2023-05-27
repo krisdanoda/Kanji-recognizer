@@ -17,7 +17,9 @@ def display_accuracy():
     global accuracy_history
     accuracies = [accuracy for kanji, accuracy in accuracy_history]
 
-    plt.plot(accuracies, marker='o', color='#0229b8')
+
+
+    plt.plot( accuracies, marker='o', color='#0229b8')
     plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Kanjis')
@@ -36,7 +38,7 @@ def display_specific_accuracy(kanjiSign):
     
     kanji_accuracies = [accuracy_history[index][1] for index in indexes]
 
-    plt.plot(kanji_accuracies, marker='o', color='#0229b8')
+    plt.plot(range(len(kanji_accuracies)), kanji_accuracies, marker='o', color='#0229b8')
     plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Occurrences')
