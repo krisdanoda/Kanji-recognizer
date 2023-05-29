@@ -13,6 +13,7 @@ def list_directory(path):
         imgs.append(img)
     return imgs
 
+
 def pick_file():
     imgs = list_directory("input_images")
     while True:
@@ -22,13 +23,14 @@ def pick_file():
         if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
             return imgs[picked_kanji - 1]
 
+
 def translate_kanji_og():
     imgs = list_directory("input_images")
     print("Make sure you have placed your image in the input_images folder\n")
 
     while True:
         picked_kanji = input(
-            "Choose which file you want to interperet. Confirm that you have placed your image correctly.")
+            "Choose which file you want to interpret. Confirm that you have placed your image correctly.")
         picked_kanji = int(picked_kanji)
         if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
             print("Your image is being recognized...\n")
@@ -39,8 +41,8 @@ def translate_kanji_og():
                 print(item)
             return
 
-def translate_kanji():
 
+def translate_kanji():
     print("Make sure you have placed your image in the input_images folder\n")
     picked_kanji = pick_file()
     print("Your image is being recognized...\n")
@@ -52,8 +54,6 @@ def translate_kanji():
     return
 
 
-
-
 def display_accuracy():
     print("Type which character you wish to see the history of")
     options = accuracy_history.kanji_list()
@@ -62,21 +62,21 @@ def display_accuracy():
         print(f'{index} - {option}')
     print("----------------")
     sign_to_check = input('')
-    #try:
-    sign_to_check = int(sign_to_check)
-    selected_option = list(options.values())[sign_to_check - 1]
-    print(f"You chose {list(options)[sign_to_check - 1]}")
-    accuracy_history.display_specific_accuracy(selected_option)
-    #except Exception as e:
-     #   print(e)
-      #  print("Sign not found!")
+    try:
+        sign_to_check = int(sign_to_check)
+        selected_option = list(options.values())[sign_to_check - 1]
+        print(f"You chose {list(options)[sign_to_check - 1]}")
+        accuracy_history.display_specific_accuracy(selected_option)
+    except Exception as e:
+        print(e)
+        print("Sign not found!")
 
 
 def show_history_options():
     accuracy_history.kanji_list()
 
 
-def skills_test( ):
+def skills_test():
     print("Can you draw this kanji: ")
     print("Click on this link to see a better rendition: \n")
 
@@ -84,12 +84,12 @@ def skills_test( ):
     input("Confirm that you have placed your image correctly")
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.give_image_meaning()
+    image_output_list = input_image.give_image_meaning(1)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
 
-def skills_test_read_drawing():
+def skills_test_read_drawing(kanji):
     print("Can you draw this kanji: ")
     print("Click on this link to see a better rendition: \n")
     ImageDrawing.open_drawing_canvas()
@@ -98,7 +98,6 @@ def skills_test_read_drawing():
     image_output_list = input_image.give_image_meaning(path="input_images/Canvas/")
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
-
 
 
 def clear_history():
@@ -145,13 +144,11 @@ while no_shutdown:
     elif choice == "5":
         print("You have chosen to test your skills\n")
 
-
         while True:
             print("Would you like to pick a kanji character, leave it blank to use the default/n")
             kanji = input()
             if kanji == "":
                 kanji = "U+91CE"
-
 
             while True:
                 print("What would you like to do?:\n-Draw an image-> Type 1\n-Read Image -> Type 2\n")

@@ -8,11 +8,12 @@ import helper_functions
 import tensorflow as tf
 import webscraping
 import accuracy_history
-
+import sequential_model
+import data_cleaning
 #LOAD LABELS
 def give_image_meaning(default_image = 0, path = "input_images"):
     Z = helper_functions.load_labels(-1)
-
+    X = helper_functions.load_images(-1)
     #FIND IMAGE
     input_images = pathlib.Path(path)
     list(input_images.iterdir())
@@ -30,12 +31,14 @@ def give_image_meaning(default_image = 0, path = "input_images"):
     new_image = cv2.cvtColor(smallImg, cv2.COLOR_RGB2GRAY)
     new_image = cv2.bitwise_not(new_image)
     new_image=np.array(new_image)
+    threshold = 16
+    new_image = np.where(new_image >= threshold, 255, 0) #Turn images to black and white
     new_image=new_image/255
 
     print(new_image)
     print(new_image.shape)
     #PREDICTION
-    model = keras.models.load_model('saved_sequential_model')
+    model = keras.models.load_model('Journal/models/sequential_model_bw')
 
     dim_img = tf.expand_dims(new_image, 0)
     predictions = model.predict(dim_img)
@@ -44,8 +47,13 @@ def give_image_meaning(default_image = 0, path = "input_images"):
     predicted_class_index = predictions.argmax(axis=-1)[0]
     predicted_class_probability = predictions[0][predicted_class_index]
 
-    #SAVE ACCURACY
 
+    #DatacleaningStuff
+    Z, X = data_cleaning.remove_min_occurences(Z, X)
+    Z, X= sequential_model.clean_data_using_webscrapped_data(Z, X)
+    Z, X = data_cleaning.remove_by_contours(Z, X)
+
+    # SAVE ACCURACY
     accuracy_history.save_accuracy(np.unique(Z)[predicted_class_index], predicted_class_probability * 100)
 
 

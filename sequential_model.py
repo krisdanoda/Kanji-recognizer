@@ -29,24 +29,22 @@ def load_data():
 
 def clean_data_using_webscrapped_data(labels, imgs, ):
     try:
-        dict_data = read_csv.add_nonocurring_kanjis("../Webscraping/kanji_freq.csv");
+        dict_data = read_csv.add_nonocurring_kanjis("Journal/Webscraping/kanji_freq.csv");
     except:
         dict_data = read_csv.add_nonocurring_kanjis("Webscraping/kanji_freq.csv")
 
-    print("amount of kanji before cleaning " + len(dict_data).__str__())
+
 
     # Remove 50 precent of the data, apparently 50% of characters of some characters
     dict_data = reduce_data.filter_dict_percentile(dict_data, 50)
 
-    print("amount of kanji after cleaning " + len(dict_data).__str__())
+
 
     mask = [key in dict_data for key in labels]  # Create a mask based on the presence of keys in the dictionary
 
-    print("amount of data before cleaning " + len(labels).__str__())
+
     imgs = [imgs[i] for i, include in enumerate(mask) if include]  # Apply the mask to array x
     labels = [labels[i] for i, include in enumerate(mask) if include]  # Apply the mask to array y
-
-    print("amount of data after cleaning " + len(labels).__str__())
 
     return labels, imgs,
 
