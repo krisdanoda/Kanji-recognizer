@@ -131,7 +131,7 @@ while no_shutdown:
 
     elif (choice == "2"):
         print("You have chosen to translate a kanji symbol\n")
-        translate_kanji_og()
+        translate_kanji()
 
     elif (choice == "3"):
         print("Accuracy history: ")
