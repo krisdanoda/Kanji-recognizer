@@ -16,13 +16,12 @@ def give_image_meaning(default_image = 0, path = "input_images"):
     X = helper_functions.load_images(-1)
     #FIND IMAGE
     input_images = pathlib.Path(path)
-    list(input_images.iterdir())
-
+    print(list(input_images.iterdir()))
+    
     input_images_strings = [str(item) for item in input_images.iterdir()]
     
 
     img = cv2.imread(input_images_strings[default_image])   # Read the image
-
 
     #RESIZE
     smallImg = helper_functions.resize(img, 64)

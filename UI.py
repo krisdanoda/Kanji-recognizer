@@ -79,7 +79,8 @@ def show_history_options():
 
 
 def skills_test():
-    print("Can you draw this kanji: ")
+    test_kanji = helper_functions.random_kanji()
+    print("Can you draw this kanji: ", test_kanji)
     print("Click on this link to see a better rendition: \n")
 
     print("Make sure you have placed your image in the input_images folder\n")
