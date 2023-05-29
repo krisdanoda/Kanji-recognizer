@@ -21,7 +21,7 @@ def pick_file():
             "Choose which file you want to interperet. Confirm that you have placed your image correctly.")
         picked_kanji = int(picked_kanji)
         if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
-            return imgs[picked_kanji - 1]
+            return picked_kanji-1
 
 
 def translate_kanji_og():
@@ -46,7 +46,9 @@ def translate_kanji():
     print("Make sure you have placed your image in the input_images folder\n")
     picked_kanji = pick_file()
     print("Your image is being recognized...\n")
+
     image_output_list = input_image.give_image_meaning(picked_kanji)
+
     print(f"\nWe recognized your image as: {image_output_list[0]}\n")
     print("It translates to:")
     for item in image_output_list[1]:
@@ -84,15 +86,16 @@ def skills_test():
     input("Confirm that you have placed your image correctly")
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.give_image_meaning(1)
+    image_output_list = input_image.give_image_meaning(1, save_accuracy= True)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
 
 def skills_test_read_drawing(kanji):
-    print("Can you draw this kanji: ")
-    print("Click on this link to see a better rendition: \n")
-    ImageDrawing.open_drawing_canvas()
+
+    print("Can you draw this kanji: " +  kanji)
+
+    ImageDrawing.open_drawing_canvas(kanji)
 
     print("Your image is being recognized...\n")
     image_output_list = input_image.give_image_meaning(path="input_images/Canvas/")
@@ -149,6 +152,8 @@ while no_shutdown:
             kanji = input()
             if kanji == "":
                 kanji = "U+91CE"
+
+
 
             while True:
                 print("What would you like to do?:\n-Draw an image-> Type 1\n-Read Image -> Type 2\n")
