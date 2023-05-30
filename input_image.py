@@ -16,7 +16,7 @@ def process_image(default_image = 0, path ="input_images", save_accuracy = False
     X = helper_functions.load_images(-1)
     #FIND IMAGE
     input_images = pathlib.Path(path)
-    print(list(input_images.iterdir()))
+
     
     input_images_strings = [str(item) for item in input_images.iterdir()]
     
@@ -51,10 +51,12 @@ def process_image(default_image = 0, path ="input_images", save_accuracy = False
 
 
     predicted_class_probability = predictions[0][predicted_class_index]
-
+    print(save_accuracy)
     # SAVE ACCURACY
     if save_accuracy:
-        accuracy_history.save_accuracy(labels[predicted_class_index], predicted_class_probability * 100)
+        accuracy_history.save_accuracy(str(kanji_unicode), predicted_class_probability * 100)
+
+        print("Accuracy saved to file", predicted_class_probability * 100)
 
     #WEBSCRAPE MEANING
 
