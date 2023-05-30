@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import csv
-import helper_functions
+from modules import helper_functions
 
 def kanji(kaniUnicode):
     return chr(int(kaniUnicode[2:], 16))

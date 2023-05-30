@@ -1,12 +1,7 @@
 import cv2
 import numpy as np
-
-import data_cleaning
-import input_images
+from modules import data_cleaning, sequential_model
 import random as rd
-
-import sequential_model
-
 
 def resize(image, new_dim):
     dim = (new_dim, new_dim)

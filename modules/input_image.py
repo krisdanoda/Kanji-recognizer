@@ -1,15 +1,14 @@
 #/usr/bin/python
-from matplotlib import pyplot as plt
 import cv2
 from tensorflow import keras
 import numpy as np
 import pathlib
-import helper_functions
+from modules import helper_functions
 import tensorflow as tf
-import webscraping
-import accuracy_history
-import sequential_model
-import data_cleaning
+from modules import webscraping
+from modules import accuracy_history
+
+
 #LOAD LABELS
 def process_image(default_image = 0, path ="input_images", save_accuracy = False, kanji_unicode = None):
     Z = helper_functions.load_labels(-1)
@@ -51,12 +50,11 @@ def process_image(default_image = 0, path ="input_images", save_accuracy = False
 
 
     predicted_class_probability = predictions[0][predicted_class_index]
-    print(save_accuracy)
     # SAVE ACCURACY
     if save_accuracy:
         accuracy_history.save_accuracy(str(kanji_unicode), predicted_class_probability * 100)
 
-        print("Accuracy saved to file", predicted_class_probability * 100)
+        print("Accuracy saved to history", predicted_class_probability * 100)
 
     #WEBSCRAPE MEANING
 

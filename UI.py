@@ -1,8 +1,6 @@
-import input_image
-import accuracy_history
-import helper_functions
+from modules import helper_functions, accuracy_history, image_drawing as ImageDrawing, input_image
 from pathlib import Path
-import image_drawing as ImageDrawing
+
 
 def list_directory(path):
     imgs = []

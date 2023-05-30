@@ -1,8 +1,8 @@
-import data_cleaning
 import numpy as np
 import matplotlib.pyplot as plt
 import Journal.Webscraping.ReadCsv as read_csv
-import reduce_data as reduce_data
+from modules import data_cleaning
+from modules import reduce_data as reduce_data
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from keras.models import Sequential
