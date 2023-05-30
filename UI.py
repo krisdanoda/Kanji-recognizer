@@ -66,7 +66,7 @@ def skills_test():
     ImageDrawing.open_drawing_canvas(test_kanji)
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.process_image(path="input_images/Canvas/", save_accuracy= True, kanji_unicode=test_label)
+    image_output_list = input_image.process_image(path="input_images", save_accuracy= True, kanji_unicode=test_label)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 

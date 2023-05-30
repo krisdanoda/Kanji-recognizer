@@ -5,7 +5,6 @@ from tkinter.filedialog import asksaveasfile
 
 def open_drawing_canvas(kanji):
 
-    path = "input_images/Canvas/"
     lastx, lasty = 0, 0
 
 
@@ -40,7 +39,7 @@ def open_drawing_canvas(kanji):
         x1 = x + canvas.winfo_width()
         y1 = y + canvas.winfo_height()
         im = ImageGrab.grab((x, y, x1, y1))
-        im.save(path + "kanji.png")
+        im.save("input_images/kanji.png")
         root.destroy()
 
 
