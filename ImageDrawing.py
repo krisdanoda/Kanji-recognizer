@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter.filedialog import asksaveasfile
 
 
-def open_drawing_canvas():
+def open_drawing_canvas(kanji):
 
     path = "input_images/Canvas/"
     lastx, lasty = 0, 0
@@ -46,7 +46,7 @@ def open_drawing_canvas():
 
 
     root = tk.Tk()
-    root.title("Draw a Kanji character")
+    root.title("Draw this kanji: " + kanji)
 
     root.columnconfigure(0, weight=5)
     root.rowconfigure(0, weight=5)

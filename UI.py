@@ -1,10 +1,8 @@
 import input_image
 import accuracy_history
 import helper_functions
-import pathlib
 from pathlib import Path
 import ImageDrawing
-
 
 def list_directory(path):
     imgs = []
@@ -82,12 +80,12 @@ def skills_test():
     test_label, test_kanji = helper_functions.random_kanji()
     print("Can you draw this kanji: ", test_kanji)
     print("Click on this link to see a better rendition:", f'https://www.compart.com/en/unicode/{test_label}' "\n")
+    print("It may take some time to open the canvas, please be patient\n")
 
-    print("Make sure you have placed your image in the input_images folder\n")
-    input("Confirm that you have placed your image correctly")
+    ImageDrawing.open_drawing_canvas(test_kanji)
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.process_image(1, save_accuracy= True, kanji_unicode=test_label)
+    image_output_list = input_image.process_image(path="input_images/Canvas/", save_accuracy= True, kanji_unicode=test_label)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
@@ -161,12 +159,6 @@ while no_shutdown:
     elif (choice == "4"):
         print("You have chosen to see your history of a specific Kanji\n")
         display_accuracy()
-
-    elif choice == "5":
-        print("You have chosen to test your skills\n")
-        skills_test_function()
-
-
 
     elif (choice.lower() == "clear"):
         print("You have chosen to clear your history")

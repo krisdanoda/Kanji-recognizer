@@ -34,6 +34,7 @@ def process_image(default_image = 0, path ="input_images", save_accuracy = False
     new_image = np.where(new_image >= threshold, 255, 0) #Turn images to black and white
     new_image=new_image/255
 
+    plt.imshow(new_image, cmap='gray')
 
     #PREDICTION
     model = keras.models.load_model('Journal/models/sequential_model_bw')
