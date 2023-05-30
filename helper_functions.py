@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import input_images
+import random as rd
 
 
 def resize(image, new_dim):
@@ -26,3 +27,10 @@ def load_images(data_slice):
     data_imgs = np.load('data/kkanj-imgs.npz')
     imgs = data_imgs['arr_0']
     return imgs[:data_slice]
+
+def random_kanji():
+    Z = load_labels(-1)
+    U = np.unique(Z)
+    label = rd.choice(U)
+    kanji = to_kanji(label)
+    return label, kanji
