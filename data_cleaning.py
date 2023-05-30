@@ -38,7 +38,7 @@ def remove_by_contours(labels, images):
         label = labels[i]
     return filtered_labels, filtered_images
 
-def remove_by_contours2(labels, images):
+def get_removed_contours(labels, images):
     full_count = 0
     image_contours = {}
     filtered_images = []

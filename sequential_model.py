@@ -2,7 +2,7 @@ import data_cleaning
 import numpy as np
 import matplotlib.pyplot as plt
 import Journal.Webscraping.ReadCsv as read_csv
-import Journal.Webscraping.reduce_data as reduce_data
+import reduce_data as reduce_data
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from keras.models import Sequential
@@ -12,7 +12,6 @@ from keras.utils import to_categorical
 from keras.layers import Dropout, Flatten, Activation, Conv2D, MaxPooling2D
 import tensorflow as tf
 import random as rn
-import cv2
 
 
 def load_data():

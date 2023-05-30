@@ -2,7 +2,7 @@ import input_image
 import accuracy_history
 import helper_functions
 from pathlib import Path
-import ImageDrawing
+import image_drawing as ImageDrawing
 
 def list_directory(path):
     imgs = []
@@ -21,23 +21,6 @@ def pick_file():
         if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
             return picked_kanji-1
 
-
-def translate_kanji_og():
-    imgs = list_directory("input_images")
-    print("Make sure you have placed your image in the input_images folder\n")
-
-    while True:
-        picked_kanji = input(
-            "Choose which file you want to interpret. Confirm that you have placed your image correctly.")
-        picked_kanji = int(picked_kanji)
-        if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
-            print("Your image is being recognized...\n")
-            image_output_list = input_image.process_image(picked_kanji - 1)
-            print(f"\nWe recognized your image as: {image_output_list[0]}\n")
-            print("It translates to:")
-            for item in image_output_list[1]:
-                print(item)
-            return
 
 
 def translate_kanji():
@@ -89,23 +72,6 @@ def skills_test():
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
-
-def skills_test_function():
-    print("Would you like to pick a kanji character, leave it blank to use the default/n")
-    kanji = input()
-    if kanji == "":
-        kanji = "U+91CE"
-
-    while True:
-        print("What would you like to do?:\n-Draw an image-> Type 1\n-Read Image -> Type 2\n")
-        choice = input()
-        choice = int(choice)
-        if choice == 1:
-            skills_test_read_drawing(kanji)
-            break
-
-        elif choice == 2:
-            skills_test()
 
 def skills_test_read_drawing(kanji):
 
