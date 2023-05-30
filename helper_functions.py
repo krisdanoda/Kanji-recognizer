@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
+
+import data_cleaning
 import input_images
 import random as rd
+
+import sequential_model
 
 
 def resize(image, new_dim):
@@ -30,7 +34,15 @@ def load_images(data_slice):
 
 def random_kanji():
     Z = load_labels(-1)
+    Z = clean_data(Z, load_images(-1))[0]
     U = np.unique(Z)
     label = rd.choice(U)
     kanji = to_kanji(label)
     return label, kanji
+
+def clean_data(labels, images):
+
+    Z, X = data_cleaning.remove_min_occurences(labels, images)
+    Z, X = sequential_model.clean_data_using_webscrapped_data(Z, X)
+    Z, X = data_cleaning.remove_by_contours(Z, X)
+    return Z, X

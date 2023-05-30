@@ -34,7 +34,7 @@ def translate_kanji_og():
         picked_kanji = int(picked_kanji)
         if picked_kanji > 0 and picked_kanji <= len(imgs) + 1:
             print("Your image is being recognized...\n")
-            image_output_list = input_image.give_image_meaning(picked_kanji - 1)
+            image_output_list = input_image.process_image(picked_kanji - 1)
             print(f"\nWe recognized your image as: {image_output_list[0]}\n")
             print("It translates to:")
             for item in image_output_list[1]:
@@ -47,7 +47,7 @@ def translate_kanji():
     picked_kanji = pick_file()
     print("Your image is being recognized...\n")
 
-    image_output_list = input_image.give_image_meaning(picked_kanji)
+    image_output_list = input_image.process_image(picked_kanji)
 
     print(f"\nWe recognized your image as: {image_output_list[0]}\n")
     print("It translates to:")
@@ -79,7 +79,7 @@ def show_history_options():
 
 
 def skills_test():
-    test_kanji = helper_functions.random_kanji()
+    test_label, test_kanji = helper_functions.random_kanji()
     print("Can you draw this kanji: ", test_kanji)
     print("Click on this link to see a better rendition:", f'https://www.compart.com/en/unicode/{test_label}' "\n")
 
@@ -87,7 +87,7 @@ def skills_test():
     input("Confirm that you have placed your image correctly")
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.give_image_meaning(1, save_accuracy= True)
+    image_output_list = input_image.process_image(1, save_accuracy= True, kanji_unicode=test_label)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
@@ -116,7 +116,7 @@ def skills_test_read_drawing(kanji):
     ImageDrawing.open_drawing_canvas(kanji)
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.give_image_meaning(path="input_images/Canvas/", save_accuracy=True)
+    image_output_list = input_image.process_image(path="input_images/Canvas/", save_accuracy=True)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 

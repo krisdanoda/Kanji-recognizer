@@ -11,7 +11,7 @@ import accuracy_history
 import sequential_model
 import data_cleaning
 #LOAD LABELS
-def give_image_meaning(default_image = 0, path = "input_images"):
+def process_image(default_image = 0, path ="input_images", save_accuracy = False, kanji_unicode = None):
     Z = helper_functions.load_labels(-1)
     X = helper_functions.load_images(-1)
     #FIND IMAGE
@@ -34,33 +34,33 @@ def give_image_meaning(default_image = 0, path = "input_images"):
     new_image = np.where(new_image >= threshold, 255, 0) #Turn images to black and white
     new_image=new_image/255
 
-    print(new_image)
-    print(new_image.shape)
+
     #PREDICTION
     model = keras.models.load_model('Journal/models/sequential_model_bw')
 
     dim_img = tf.expand_dims(new_image, 0)
     predictions = model.predict(dim_img)
-    predicted_classes = predictions.argmax(axis=-1)
 
     predicted_class_index = predictions.argmax(axis=-1)[0]
+
+    Z = helper_functions.clean_data(Z, X)[0]
+    labels = np.unique(Z)
+
+    if kanji_unicode != None:
+        predicted_class_index = np.where(labels == str(kanji_unicode))[0][0]
+
+
     predicted_class_probability = predictions[0][predicted_class_index]
 
-
-    #DatacleaningStuff
-    Z, X = data_cleaning.remove_min_occurences(Z, X)
-    Z, X= sequential_model.clean_data_using_webscrapped_data(Z, X)
-    Z, X = data_cleaning.remove_by_contours(Z, X)
-
     # SAVE ACCURACY
-    accuracy_history.save_accuracy(np.unique(Z)[predicted_class_index], predicted_class_probability * 100)
-
+    if save_accuracy:
+        accuracy_history.save_accuracy(labels[predicted_class_index], predicted_class_probability * 100)
 
     #WEBSCRAPE MEANING
 
-    return_list = [helper_functions.to_kanji(np.unique(Z)[predicted_classes][0])]
-    return_list.append(webscraping.get_meaning(helper_functions.to_kanji(np.unique(Z)[predicted_classes][0])))
-    return_list.append(predicted_class_probability*100)
+    return_list = [helper_functions.to_kanji(labels[predicted_class_index])]
+    return_list.append(webscraping.get_meaning(helper_functions.to_kanji(labels[predicted_class_index])))
+    return_list.append(round(predicted_class_probability*100,2))
 
     return return_list
 
