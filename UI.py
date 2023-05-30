@@ -91,14 +91,31 @@ def skills_test():
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
 
+def skills_test_function():
+    print("Would you like to pick a kanji character, leave it blank to use the default/n")
+    kanji = input()
+    if kanji == "":
+        kanji = "U+91CE"
+
+    while True:
+        print("What would you like to do?:\n-Draw an image-> Type 1\n-Read Image -> Type 2\n")
+        choice = input()
+        choice = int(choice)
+        if choice == 1:
+            skills_test_read_drawing(kanji)
+            break
+
+        elif choice == 2:
+            skills_test()
+
 def skills_test_read_drawing(kanji):
 
-    print("Can you draw this kanji: " +  kanji)
+    print("Can you draw this kanji: " +  kanji +"\n Please maximise the popup to draw you character")
 
     ImageDrawing.open_drawing_canvas(kanji)
 
     print("Your image is being recognized...\n")
-    image_output_list = input_image.give_image_meaning(path="input_images/Canvas/")
+    image_output_list = input_image.give_image_meaning(path="input_images/Canvas/", save_accuracy=True)
 
     print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
 
@@ -146,34 +163,8 @@ while no_shutdown:
 
     elif choice == "5":
         print("You have chosen to test your skills\n")
+        skills_test_function()
 
-        while True:
-            print("Would you like to pick a kanji character, leave it blank to use the default/n")
-            kanji = input()
-            if kanji == "":
-                kanji = "U+91CE"
-
-
-
-            while True:
-                print("What would you like to do?:\n-Draw an image-> Type 1\n-Read Image -> Type 2\n")
-                choice = input()
-                choice = int(choice)
-                if choice == 1:
-                    skills_test_read_drawing(kanji)
-                    break
-                elif choice == 2:
-                    print("Can you draw this kanji: ")
-                    print("Click on this link to see a better rendition: \n")
-
-                    print("Make sure you have placed your image in the input_images folder\n")
-                    input("Confirm that you have placed your image correctly")
-
-                    print("Your image is being recognized...\n")
-                    image_output_list = input_image.give_image_meaning()
-
-                    print(f'You drew {image_output_list[0]} with an accuracy of {image_output_list[2]}%')
-                    break
 
 
     elif (choice.lower() == "clear"):
