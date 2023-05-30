@@ -11,18 +11,15 @@ filename = 'accuracy_history.csv'
 def save_accuracy(kanji, new_accuracy):
     global accuracy_history
     accuracy_history.append((kanji, new_accuracy))
-   # print(accuracy_history)
 
 def display_accuracy():
     global accuracy_history
     accuracies = [accuracy for kanji, accuracy in accuracy_history]
 
-
-
     plt.plot( accuracies, marker='o', color='#0229b8')
     plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')
-    plt.xlabel('Kanjis')
+    plt.xlabel('Attempts')
     plt.ylim(0, 103)
     plt.xlim(0)
     plt.show()
@@ -41,7 +38,7 @@ def display_specific_accuracy(kanjiSign):
     plt.plot(range(len(kanji_accuracies)), kanji_accuracies, marker='o', color='#0229b8')
     plt.title('Skill Rating')
     plt.ylabel('Accuracy (%)')
-    plt.xlabel('Occurrences')
+    plt.xlabel('Attempts')
     plt.ylim(0, 103)
     plt.xlim(0)
     plt.show()
