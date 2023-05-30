@@ -32,15 +32,10 @@ def clean_data_using_webscrapped_data(labels, imgs, ):
     except:
         dict_data = read_csv.add_nonocurring_kanjis("Webscraping/kanji_freq.csv")
 
-
-
     # Remove 50 precent of the data, apparently 50% of characters of some characters
     dict_data = reduce_data.filter_dict_percentile(dict_data, 50)
 
-
-
     mask = [key in dict_data for key in labels]  # Create a mask based on the presence of keys in the dictionary
-
 
     imgs = [imgs[i] for i, include in enumerate(mask) if include]  # Apply the mask to array x
     labels = [labels[i] for i, include in enumerate(mask) if include]  # Apply the mask to array y
@@ -62,6 +57,9 @@ def one_hot_encode(Z):
 
 
 def define_model(Z, padding="Same", activation="relu", kernelsizes=None, filters=32, dropout=False):
+    if dropout is True:
+        dropout = 0.25
+
     if kernelsizes is None:
         kernelsizes = [3, 3, 1, 1]
     model = Sequential()
@@ -69,22 +67,22 @@ def define_model(Z, padding="Same", activation="relu", kernelsizes=None, filters
                      activation=activation, input_shape=(64, 64, 1)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
-    if dropout:
-        model.add(Dropout(0.25))
+    if dropout is not False:
+        model.add(Dropout(dropout))
 
     model.add(Conv2D(filters=filters * 2, kernel_size=(kernelsizes[1], kernelsizes[1]), padding='Same',
                      activation=activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
-    if dropout:
-        model.add(Dropout(0.25))
+    if dropout is not False:
+        model.add(Dropout(dropout))
 
     model.add(Conv2D(filters=filters * 3, kernel_size=(kernelsizes[2], kernelsizes[2]), padding='Same',
                      activation=activation))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
-    if dropout:
-        model.add(Dropout(0.25))
+    if dropout is not False:
+        model.add(Dropout(dropout))
 
     model.add(Conv2D(filters=filters * 3, kernel_size=(kernelsizes[3], kernelsizes[3]), padding='Same',
                      activation=activation))
@@ -118,7 +116,8 @@ def fit_model(model, x_train, y_train, x_test, y_test, batch_size, epochs, learn
 
 
 def run_model(name, epochs, batchsize, use_contours_filtering=True, use_data_filtering=True, padding="Same",
-              activation="relu", kernel_sizes=None, dropout=False, filters=32, learning_rate=0.00005, colors = "greyscale"):
+              activation="relu", kernel_sizes=None, dropout=False, filters=32, learning_rate=0.00005,
+              colors="greyscale"):
     labels, imgs = load_data()
 
     filtered_labels, filtered_imgs = data_cleaning.remove_min_occurences(labels, imgs)
