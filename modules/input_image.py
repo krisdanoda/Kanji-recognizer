@@ -1,5 +1,6 @@
 #/usr/bin/python
 import cv2
+import matplotlib.pyplot
 from tensorflow import keras
 import numpy as np
 import pathlib
@@ -22,20 +23,21 @@ def process_image(default_image = 0, path ="input_images", save_accuracy = False
 
     img = cv2.imread(input_images_strings[default_image])   # Read the image
 
+
     #RESIZE
     smallImg = helper_functions.resize(img, 64)
 
     #SHAPE IMAGE
     new_image = cv2.cvtColor(smallImg, cv2.COLOR_RGB2GRAY)
     new_image = cv2.bitwise_not(new_image)
-    new_image=np.array(new_image)
+    new_image = np.array(new_image)
     threshold = 16
     new_image = np.where(new_image >= threshold, 255, 0) #Turn images to black and white
     new_image=new_image/255
 
 
     #PREDICTION
-    model = keras.models.load_model('Journal/models/sequential_model_bw')
+    model = keras.models.load_model('Journal/models/withdropout_and_larger_kernel_bw')
 
     dim_img = tf.expand_dims(new_image, 0)
     predictions = model.predict(dim_img)
